@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { listDirectory, type DirectoryEntry } from '$lib/data';
+	import Crest from '$lib/components/Crest.svelte';
 
 	let students = $state<DirectoryEntry[]>([]);
 	let loading = $state(true);
@@ -41,9 +42,13 @@
 	<title>Student Directory — Tendercare Comprehensive College</title>
 </svelte:head>
 
+<div class="bg-crest-wrap" aria-hidden="true">
+	<Crest class="bg-crest" size="min(1400px, 150vw)" />
+</div>
+
 <div class="directory-page">
 	<header class="directory-header">
-		<div class="directory-logo">TCC</div>
+		<Crest class="directory-logo" size="4.25rem" />
 		<h1>Student Directory</h1>
 		<p>Search for a student to view their results.</p>
 		<input
@@ -76,7 +81,26 @@
 </div>
 
 <style>
+	/* Giant, feint, fixed background crest — matches the reference
+	   student-directory.html's .bg-crest-wrap / .bg-crest treatment */
+	:global(.bg-crest-wrap) {
+		position: fixed;
+		inset: 0;
+		z-index: 0;
+		pointer-events: none;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+	}
+	:global(.bg-crest) {
+		color: var(--color-purple-deep, #3a1a5c);
+		opacity: 0.045;
+	}
+
 	.directory-page {
+		position: relative;
+		z-index: 1;
 		max-width: 1000px;
 		margin: 0 auto;
 		padding: var(--space-8, 2rem) var(--space-5, 1.25rem);
@@ -86,12 +110,9 @@
 		text-align: center;
 		margin-bottom: var(--space-10, 2.5rem);
 	}
-	.directory-logo {
-		font-family: var(--font-serif, serif);
-		font-size: 1.4rem;
-		font-weight: 600;
-		letter-spacing: 0.04em;
-		margin-bottom: 0.5rem;
+	:global(.directory-logo) {
+		color: var(--color-purple-deep, #3a1a5c);
+		margin: 0 auto 0.6rem auto;
 	}
 	.directory-header p {
 		opacity: 0.6;
@@ -157,5 +178,11 @@
 		font-size: 0.75rem;
 		opacity: 0.5;
 		font-family: var(--font-mono, monospace);
+	}
+
+	@media (max-width: 640px) {
+		:global(.bg-crest) {
+			height: 220vw !important;
+		}
 	}
 </style>

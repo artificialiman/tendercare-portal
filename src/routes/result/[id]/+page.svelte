@@ -1,66 +1,100 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
-	import { getStudent, getScores, getClassSize, type StudentScore } from '$lib/data';
-	import { grade, gradeClass, REMARKS } from '$lib/grading';
+	import Crest from '$lib/components/Crest.svelte';
 
 	const studentId = $derived(page.params.id);
 
 	let loading = $state(true);
 	let notFound = $state(false);
-	let student = $state<{ id: string; full_name: string; class_id: string } | null>(null);
-	let classSize = $state(0);
-	let scores = $state<StudentScore[]>([]);
-	let activeTerm = $state<string>('');
+	let redirecting = $state(false);
 
-	// NOTE: auth removed for now, per instruction — this route is open. A
-	// real access-control decision (per-student password, staff-issued
-	// link, etc.) still needs to be made before this goes in front of
-	// real users; see tendercare-teacher's README for why the *previous*
-	// approach (one hardcoded password shared by the entire school,
-	// visible in view-source) wasn't something to carry forward as-is.
+	// Password gate — verified server-side against portal_credentials via
+	// /result/[id]/login (see that route's comment for the current
+	// shared-password policy and why it replaced the fully-open version
+	// that used to be here, and tendercare-teacher's README for why the
+	// version before *that* — one password hardcoded in view-source —
+	// wasn't something to carry forward as-is either).
+	let unlocked = $state(false);
+	let passwordInput = $state('');
+	let checkingPassword = $state(false);
+	let passwordError = $state('');
 
-	onMount(async () => {
+	const SESSION_KEY = $derived(studentId ? `tc-portal-unlocked:${studentId}` : '');
+
+	onMount(() => {
+		if (studentId && sessionStorage.getItem(SESSION_KEY) === '1') {
+			unlocked = true;
+			void loadResult();
+		}
+	});
+
+	async function handleUnlock(e: SubmitEvent) {
+		e.preventDefault();
+		if (!studentId) return;
+		checkingPassword = true;
+		passwordError = '';
+		try {
+			const res = await fetch(`/result/${studentId}/login`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ password: passwordInput })
+			});
+			const body = await res.json();
+			if (!body.ok) {
+				passwordError = body.error ?? 'Incorrect student ID or password.';
+				return;
+			}
+			sessionStorage.setItem(SESSION_KEY, '1');
+			unlocked = true;
+			await loadResult();
+		} finally {
+			checkingPassword = false;
+		}
+	}
+
+	/**
+	 * Results are static and hardcoded in the repo, not a Supabase query.
+	 * This used to call getStudent/getScores/getClassSize (live reads
+	 * against the students/scores tables) and re-render the transcript
+	 * from that data in Svelte. Per the antifail doctrine, that's exactly
+	 * backwards for this piece: a full transcript is a "heavy report
+	 * file," not something worth a network round-trip on every view,
+	 * especially for a demographic with slow/unreliable connections.
+	 *
+	 * The actual report pages are generated ahead of time by the Python
+	 * pipeline (schema + Jinja2 template + generate.py, see
+	 * tendercare-teacher's handoff notes / the crosscheck doc) and land
+	 * as static files in this repo's static/reports/ directory -- fully
+	 * self-contained HTML, including their own crest watermark and
+	 * teacher/principal remark sections, no further data fetch needed.
+	 * This route's job, once the password check above succeeds, is only
+	 * to hand the browser off to that static file -- same-origin, no
+	 * external network call, no database read.
+	 *
+	 * static/reports/ only has a handful of example files in it right
+	 * now (one per class-arm, from the pipeline's demo run). Populating
+	 * it for every real student is the generation script's job, not
+	 * this route's -- this just wires up where the result goes once it
+	 * exists.
+	 */
+	async function loadResult() {
 		if (!studentId) return;
 		loading = true;
 		notFound = false;
-		const s = await getStudent(studentId);
-		if (!s) {
+		const res = await fetch(`/reports/${studentId}.html`, { method: 'HEAD' });
+		if (!res.ok) {
 			notFound = true;
 			loading = false;
 			return;
 		}
-		student = s;
-		[classSize, scores] = await Promise.all([getClassSize(s.class_id), getScores(studentId)]);
-		const terms = [...new Set(scores.map((sc) => sc.term_id))].sort();
-		activeTerm = terms[terms.length - 1] ?? '';
-		loading = false;
-	});
-
-	const termsAvailable = $derived([...new Set(scores.map((s) => s.term_id))].sort());
-	const termScores = $derived(scores.filter((s) => s.term_id === activeTerm));
-	const rows = $derived(
-		termScores.map((s) => {
-			const total = s.ca !== null && s.exam !== null ? s.ca + s.exam : null;
-			const g = grade(total);
-			return { ...s, total, grade: g, remark: REMARKS[g] ?? '—' };
-		})
-	);
-	const totals = $derived.by(() => {
-		const valid = rows.filter((r) => r.total !== null).map((r) => r.total as number);
-		if (!valid.length) return { total: 0, avg: 0, high: 0, low: 0 };
-		const total = valid.reduce((a, b) => a + b, 0);
-		return {
-			total,
-			avg: Math.round((total / valid.length) * 10) / 10,
-			high: Math.max(...valid),
-			low: Math.min(...valid)
-		};
-	});
+		redirecting = true;
+		window.location.href = `/reports/${studentId}.html`;
+	}
 </script>
 
 <svelte:head>
-	<title>{student ? `${student.full_name} — Results — TCC` : 'Results — Tendercare Comprehensive College'}</title>
+	<title>Results — Tendercare Comprehensive College</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 	<link
@@ -69,162 +103,41 @@
 	/>
 </svelte:head>
 
-{#if loading}
+{#if !unlocked}
+	<div class="unlock-page">
+		<div class="unlock-card">
+			<Crest size="3rem" class="unlock-crest" />
+			<h1>Student ID: {studentId}</h1>
+			<p>Enter your result password to continue.</p>
+			<form onsubmit={handleUnlock}>
+				<input
+					type="password"
+					placeholder="Password"
+					bind:value={passwordInput}
+					required
+					autocomplete="current-password"
+				/>
+				{#if passwordError}
+					<p class="unlock-error" role="alert">{passwordError}</p>
+				{/if}
+				<button type="submit" disabled={checkingPassword}>
+					{checkingPassword ? 'Checking…' : 'View result'}
+				</button>
+			</form>
+		</div>
+	</div>
+{:else if loading}
 	<div class="loading-state">Loading…</div>
+{:else if redirecting}
+	<div class="loading-state">Opening your result…</div>
 {:else if notFound}
 	<div class="loading-state">
-		<p>No student found for ID <strong>{studentId}</strong>.</p>
+		<p>No result file found yet for ID <strong>{studentId}</strong>.</p>
+		<p style="opacity:0.6; font-size: 0.9em;">
+			The static report for this student hasn't been generated yet -- see
+			the report-generation pipeline (schema + template + generate.py).
+		</p>
 		<a href="/">Back to directory</a>
-	</div>
-{:else if student}
-	<div id="resultPage">
-		<nav class="result-nav">
-			<div class="result-nav-left">
-				<div class="result-nav-logo"><span>TCC</span></div>
-				<div class="result-nav-title">Academic Results</div>
-			</div>
-			<div class="result-nav-actions">
-				<button class="nav-btn nav-btn--print" onclick={() => window.print()}>Print / PDF</button>
-				<a class="nav-btn" href="/">Directory</a>
-			</div>
-		</nav>
-
-		<div class="sheet-wrap">
-			<div class="sheet">
-				<div class="letterhead">
-					<div class="logo-slot"><span>School<br />Logo</span></div>
-					<div class="school-identity">
-						<div class="school-name">Tendercare Comprehensive College</div>
-						<div class="school-address">Lagos, Nigeria</div>
-						<div class="school-tagline">"Raising minds. Shaping futures."</div>
-					</div>
-					<div class="stamp-slot"><span>Official<br />Stamp</span></div>
-				</div>
-
-				<div class="report-bar">Academic Progress Report &nbsp;·&nbsp; 2024/2025 Session</div>
-
-				<div class="meta">
-					<div class="photo-box">
-						<div class="photo-ph">
-							<div class="photo-ph-circle"></div>
-							<div class="photo-ph-bar"></div>
-							<div class="photo-ph-bar" style="width:36px;"></div>
-						</div>
-					</div>
-					<div class="meta-grid">
-						<div class="mf"><span class="ml">Student Name</span><span class="mv big">{student.full_name}</span></div>
-						<div class="mf"><span class="ml">Student ID</span><span class="mv">{student.id}</span></div>
-						<div class="mf"><span class="ml">Class</span><span class="mv">{student.class_id}</span></div>
-						<div class="mf"><span class="ml">Session</span><span class="mv">2024/2025</span></div>
-						<div class="mf"><span class="ml">Class Teacher</span><span class="mv">_________________</span></div>
-						<div class="mf"><span class="ml">No. in Class</span><span class="mv">{classSize}</span></div>
-					</div>
-				</div>
-
-				{#if termsAvailable.length > 1}
-					<div class="term-tabs">
-						{#each termsAvailable as t (t)}
-							<button
-								class="term-tab"
-								class:active={activeTerm === t}
-								onclick={() => (activeTerm = t)}>{t}</button
-							>
-						{/each}
-					</div>
-				{/if}
-
-				{#if rows.length === 0}
-					<div class="panel-locked">
-						<div class="lock-icon">📋</div>
-						<div class="lock-title">No results uploaded yet</div>
-						<div class="lock-sub">Scores will appear here once submitted.</div>
-					</div>
-				{:else}
-					<div class="panel active">
-						<div class="scores">
-							<table>
-								<thead>
-									<tr>
-										<th style="width:32%;">Subject</th>
-										<th>CA <span style="font-size:0.58rem;opacity:0.7;font-weight:400;">/30</span></th>
-										<th>Exam <span style="font-size:0.58rem;opacity:0.7;font-weight:400;">/70</span></th>
-										<th>Total <span style="font-size:0.58rem;opacity:0.7;font-weight:400;">/100</span></th>
-										<th>Grade</th>
-										<th>Remark</th>
-									</tr>
-								</thead>
-								<tbody>
-									{#each rows as r (r.subject)}
-										<tr>
-											<td>{r.subject}</td>
-											<td>{r.ca ?? '—'}</td>
-											<td>{r.exam ?? '—'}</td>
-											<td>{r.total ?? '—'}</td>
-											<td><span class="g {gradeClass(r.grade)}">{r.grade}</span></td>
-											<td>{r.remark}</td>
-										</tr>
-									{/each}
-								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan="2" style="text-align:left;font-size:0.65rem;letter-spacing:0.06em;text-transform:uppercase;">
-											Total / Average
-										</td>
-										<td>{totals.avg}</td>
-										<td>{totals.total}</td>
-										<td colspan="2">Position: —</td>
-									</tr>
-								</tfoot>
-							</table>
-						</div>
-
-						<div class="grade-key">
-							<span class="gk-label">Grade Key:</span>
-							<span class="gk-item"><span class="g g-a1">A1</span> 75–100</span>
-							<span class="gk-item"><span class="g g-b2">B2</span> 70–74</span>
-							<span class="gk-item"><span class="g g-b3">B3</span> 65–69</span>
-							<span class="gk-item"><span class="g g-c4">C4</span> 60–64</span>
-							<span class="gk-item"><span class="g g-c5">C5</span> 55–59</span>
-							<span class="gk-item"><span class="g g-c6">C6</span> 50–54</span>
-							<span class="gk-item"><span class="g g-d7">D7</span> 45–49</span>
-							<span class="gk-item"><span class="g g-e8">E8</span> 40–44</span>
-							<span class="gk-item"><span class="g g-f9">F9</span> 0–39</span>
-						</div>
-
-						<div class="stats">
-							<div class="stat"><div class="stat-l">Total Score</div><div class="stat-v">{totals.total}</div></div>
-							<div class="stat"><div class="stat-l">Average</div><div class="stat-v">{totals.avg}</div></div>
-							<div class="stat"><div class="stat-l">Highest</div><div class="stat-v">{totals.high}</div></div>
-							<div class="stat"><div class="stat-l">Lowest</div><div class="stat-v">{totals.low}</div></div>
-						</div>
-
-						<div class="comments">
-							<div class="cb">
-								<span class="cb-label">Class Teacher's Comment</span>
-								<div class="cb-box cb-box--readonly">Not yet entered.</div>
-								<div class="sig">
-									<div class="sig-line"><span>Signature</span></div>
-									<span class="sig-date">Date: ___________</span>
-								</div>
-							</div>
-							<div class="cb">
-								<span class="cb-label">Principal's Comment</span>
-								<div class="cb-box cb-box--readonly">Not yet entered.</div>
-								<div class="sig">
-									<div class="sig-line"><span>Signature</span></div>
-									<span class="sig-date">Date: ___________</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				{/if}
-
-				<div class="sheet-foot">
-					<span class="sheet-foot-school">Tendercare Comprehensive College</span>
-					<span class="sheet-foot-ref">2024/2025 · {activeTerm}</span>
-				</div>
-			</div>
-		</div>
 	</div>
 {/if}
 
@@ -234,6 +147,66 @@
 		margin: 4rem auto;
 		text-align: center;
 		font-family: var(--font-sans, system-ui);
+	}
+	.unlock-page {
+		min-height: 100dvh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1.5rem;
+		font-family: var(--font-sans, system-ui);
+	}
+	.unlock-card {
+		width: 100%;
+		max-width: 340px;
+		padding: 2rem;
+		border: 1px solid var(--cream-deep, #eee);
+		border-radius: 12px;
+		text-align: center;
+	}
+	:global(.unlock-crest) {
+		color: var(--purple-deep, #3a1a5c);
+		margin: 0 auto 0.75rem auto;
+	}
+	.unlock-card h1 {
+		font-size: 1rem;
+		font-family: var(--font-serif, serif);
+		margin: 0 0 0.35rem;
+	}
+	.unlock-card p {
+		font-size: 0.85rem;
+		opacity: 0.65;
+		margin: 0 0 1.25rem;
+	}
+	.unlock-card form {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+	.unlock-card input {
+		padding: 0.6rem 0.8rem;
+		border: 1px solid #ccc;
+		border-radius: 8px;
+		font-size: 0.95rem;
+		text-align: center;
+	}
+	.unlock-card button {
+		padding: 0.65rem;
+		border-radius: 8px;
+		border: none;
+		background: var(--purple, #6b46c1);
+		color: white;
+		font-weight: 600;
+		cursor: pointer;
+	}
+	.unlock-card button:disabled {
+		opacity: 0.6;
+		cursor: default;
+	}
+	.unlock-error {
+		color: #900;
+		font-size: 0.82rem;
+		margin: 0;
 	}
 	.cb-box--readonly {
 		min-height: 3.5rem;
@@ -269,7 +242,13 @@
     /* ═══════════════════════
        RESULT PAGE
     ═══════════════════════ */
-    #resultPage { display: none; }
+    /* NOTE: this component was ported from a static multi-section HTML
+       page where #resultPage was one of several panels toggled by JS,
+       with `display:none` as the default and a `@media print { display:
+       block }` override to reveal it only when printing. That's why the
+       result sheet used to disappear or fail to render on screen and in
+       PDF export — Svelte's {#if student} already controls visibility,
+       so no CSS-level display:none is needed or wanted here. */
 
     .result-nav {
       background: var(--purple-deep);
@@ -279,11 +258,10 @@
     }
     .result-nav-left { display: flex; align-items: center; gap: 0.75rem; }
     .result-nav-logo {
-      width: 34px; height: 34px;
-      border: 1px dashed rgba(196,168,224,0.3); border-radius: 50%;
+      color: var(--purple-light);
       display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
     }
-    .result-nav-logo span { font-size: 0.42rem; color: var(--purple-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; text-align: center; line-height: 1.4; }
     .result-nav-title { font-family: var(--font-serif); font-size: 1rem; color: var(--white); }
     .result-nav-actions { display: flex; gap: 0.75rem; }
     .nav-btn {
@@ -300,12 +278,52 @@
     /* Sheet */
     .sheet-wrap { padding: 2rem 1rem 4rem; }
     .sheet {
+      position: relative;
       max-width: 820px; margin: 0 auto;
       background: var(--white);
       border: 1px solid var(--cream-deep);
       border-radius: 4px;
       box-shadow: 0 4px 24px rgba(0,0,0,0.12);
       overflow: hidden;
+      /* Without this, Chrome/Firefox print engines default to
+         "conserve toner" and silently drop low-opacity background
+         art like the watermark below when exporting to PDF. */
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* Letterhead-style watermark: a single crest centered on the
+       *whole* sheet, sitting behind every section. Bands with their
+       own solid fill (letterhead, report bar, table header/footer)
+       naturally occlude it where they overlap, exactly like a real
+       printed letterhead's security pattern — it only shows through
+       the open white space (scores table body, stats, comments).
+       That's why it's centered on .sheet as a whole rather than
+       confined to the top band: pinned to just the header, it would
+       sit entirely behind solid-color bands and never be visible at
+       any opacity.
+       Positioned `absolute` *inside* .sheet (part of the normal
+       document flow) rather than `fixed` to the viewport — fixed-
+       position layers are dropped or misplaced by most browsers'
+       print/PDF renderers, which is the likely cause of the
+       watermark "breaking" in PDF exports before. */
+    .sheet-watermark {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 480px;
+      max-width: 85%;
+      color: var(--purple-deep);
+      opacity: 0.06;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Everything else in the sheet sits above the watermark layer */
+    .letterhead, .report-bar, .meta, .term-tabs, .panel, .panel-locked,
+    .grade-key, .stats, .comments, .sheet-foot {
+      position: relative;
+      z-index: 1;
     }
 
     /* Letterhead */
@@ -320,8 +338,11 @@
       width: 72px; height: 72px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
     }
-    .logo-slot { border: 1.5px dashed var(--purple-light); background: var(--purple-ghost); }
-    .logo-slot span { font-size: 0.55rem; text-align: center; color: var(--purple); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1.5; padding: 0 6px; }
+    .logo-slot {
+      color: var(--purple-deep);
+      padding: 8px;
+      box-sizing: border-box;
+    }
     .stamp-slot { border: 1.5px dashed var(--ash); background: var(--ash-light); }
     .stamp-slot span { font-size: 0.55rem; text-align: center; color: var(--ash); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1.5; padding: 0 6px; }
     .school-identity { text-align: center; }
@@ -439,9 +460,19 @@
     .sheet-foot-ref { font-size: 0.6rem; color: rgba(196,168,224,0.4); letter-spacing: 0.1em; text-transform: uppercase; }
 
     @media print {
-      #resultPage { display: block !important; }
       .result-nav, .sheet-wrap > *:not(.sheet) { display: none; }
-      .sheet { box-shadow: none; }
+      .sheet {
+        box-shadow: none;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
       .cb-box { border: none; background: transparent; }
+      /* Force the faint watermark to print rather than being
+         stripped as "background graphics" by a browser that defaults
+         print requests to text-only. */
+      .sheet-watermark {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
     }
 </style>
