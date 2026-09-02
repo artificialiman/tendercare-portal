@@ -25,9 +25,25 @@ only recognize the `xlink:` form), and a forced
 block hid the right elements but never stopped the browser/renderer from
 stripping the watermark and colored badges as "background graphics."
 
-Right now this only has one example per class-arm (12 files) -- two use
-real digitized scores (TCH-2025-032, TCH-2025-214), the rest (TCH-0000-*)
-are clearly-labeled placeholder data, never real student IDs. Populating
-this folder for every actual student is `generate_report.py`'s job, run
-against a real broadsheet CSV -- not something to hand-author one file at
-a time.
+## Third Term 2025/2026 -- first complete real dataset
+
+267 real per-student result pages, imported from
+`UTMEDaily/Tendercare/Directory` and patched with the same three fixes
+described above (gate removed, xlink fallback added, print color-adjust
+forced) before landing here. This is the first term with results online --
+Third Term, 2025/2026 session. Later terms/sessions will arrive as CSVs
+or scanned broadsheets and go through `generate_report.py` instead of a
+manual import like this one.
+
+`student-directory.html` (a class/roster index page, not a per-student
+result) stayed in the source repo -- it's a different artifact from what
+this folder holds, not brought over here.
+
+The 10 `TCH-0000-*` files are still placeholder data (never real student
+IDs) and are unrelated to the 267 above.
+
+Note: these are static files only. For `/result/<id>` to actually serve
+one, the matching row needs to exist in Supabase's `students` table
+(`active: true`) and have a password hash in `portal_credentials` (see
+`scripts/set_shared_student_password.ts`) -- populating the static file
+and populating the roster/credentials are two separate steps.
