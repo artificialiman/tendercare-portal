@@ -34,7 +34,6 @@ svg.crest-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 .gate-btn { width: 100%; background: var(--pd); color: white; border: none; font-family: var(--fn); font-weight: 600; font-size: 14px; padding: 13px; border-radius: 7px; cursor: pointer; }
 .gate-btn:hover { background: #14324e; }
 .gate-error { color: var(--fail-fg); font-size: 12.5px; margin-top: 10px; min-height: 16px; }
-#site-content { display: none; }
 .page-wrap { max-width: 1000px; margin: 0 auto; }
 .archive-header { background: linear-gradient(135deg, var(--pd) 0%, #123049 100%); border-radius: 12px 12px 0 0; padding: 24px 28px; color: white; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .archive-header .ah-left { display: flex; align-items: center; gap: 14px; }
@@ -118,8 +117,8 @@ svg.crest-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
 .placeholder-text span { font-size: 13px; color: var(--ash); line-height: 1.55; max-width: 520px; }
 .grade-note { position: relative; z-index: 1; margin-top: 10px; font-size: 11px; border: 1px solid var(--pl); background: var(--pg); color: var(--p); border-radius: 6px; padding: 8px 12px; line-height: 1.5; }
 @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
     body { background: white; padding: 0; }
-    .gate-wrap { display: none !important; }
     .archive-header, .nav-shell { display: none !important; }
     .card-inner { box-shadow: none; border-radius: 0; padding: 20px; }
     .watermark-crest { opacity: 0.07; }
@@ -410,21 +409,11 @@ l-61 -64 20 -38 c30 -60 25 -91 -20 -132 -21 -19 -48 -38 -60 -42 -18 -5 -20
 </g></symbol>
 </svg>
 
-<div class="gate-wrap" id="gate-wrap">
-    <svg class="gate-crest"><use href="#crest-symbol"/></svg>
-    <h1>EXAMPLE STUDENT (JSS1A) — DEMO DATA, NOT A REAL RECORD</h1>
-    <div class="gate-sub">Tendercare Comprehensive College &middot; TCH-0000-001</div>
-    <div class="gate-note">Temporary access code for all students: <strong>12345678</strong></div>
-    <input type="password" class="gate-input" id="gate-input" placeholder="Enter access code" autocomplete="off">
-    <button type="button" class="gate-btn" id="gate-btn">Unlock Record</button>
-    <div class="gate-error" id="gate-error"></div>
-</div>
-
 <div id="site-content">
 <div class="page-wrap">
     <header class="archive-header">
         <div class="ah-left">
-            <svg class="ah-crest"><use href="#crest-symbol"/></svg>
+            <svg class="ah-crest"><use href="#crest-symbol" xlink:href="#crest-symbol"/></svg>
             <div>
                 <h1>EXAMPLE STUDENT (JSS1A) — DEMO DATA, NOT A REAL RECORD &middot; Academic Record</h1>
                 <div class="ah-sub">Tendercare Comprehensive College &nbsp;&middot;&nbsp; Student ID TCH-0000-001 &nbsp;&middot;&nbsp; JSS1A</div>
@@ -465,10 +454,10 @@ l-61 -64 20 -38 c30 -60 25 -91 -20 -132 -21 -19 -48 -38 -60 -42 -18 -5 -20
         
         <div class="term-panel is-placeholder" id="panel_y0t1_2025-2026" data-term-id="y0t1_2025-2026" hidden>
             <div class="card-inner">
-                <svg class="watermark-crest"><use href="#crest-symbol"/></svg>
-                <svg class="corner-logo"><use href="#crest-symbol"/></svg>
+                <svg class="watermark-crest"><use href="#crest-symbol" xlink:href="#crest-symbol"/></svg>
+                <svg class="corner-logo"><use href="#crest-symbol" xlink:href="#crest-symbol"/></svg>
                 <div class="school-header">
-                    <svg class="header-logo"><use href="#crest-symbol"/></svg>
+                    <svg class="header-logo"><use href="#crest-symbol" xlink:href="#crest-symbol"/></svg>
                     <div class="school-name">TENDER CARE COMPREHENSIVE COLLEGE</div>
                     <div class="school-address">Kamalo Labori Sagamu Road, Gbaga, Ogun State.</div>
                     <div class="school-phone">Tel: 08149135960; 08085042982</div>
@@ -495,10 +484,10 @@ l-61 -64 20 -38 c30 -60 25 -91 -20 -132 -21 -19 -48 -38 -60 -42 -18 -5 -20
         
         <div class="term-panel is-placeholder" id="panel_y1t2_2025-2026" data-term-id="y1t2_2025-2026" hidden>
             <div class="card-inner">
-                <svg class="watermark-crest"><use href="#crest-symbol"/></svg>
-                <svg class="corner-logo"><use href="#crest-symbol"/></svg>
+                <svg class="watermark-crest"><use href="#crest-symbol" xlink:href="#crest-symbol"/></svg>
+                <svg class="corner-logo"><use href="#crest-symbol" xlink:href="#crest-symbol"/></svg>
                 <div class="school-header">
-                    <svg class="header-logo"><use href="#crest-symbol"/></svg>
+                    <svg class="header-logo"><use href="#crest-symbol" xlink:href="#crest-symbol"/></svg>
                     <div class="school-name">TENDER CARE COMPREHENSIVE COLLEGE</div>
                     <div class="school-address">Kamalo Labori Sagamu Road, Gbaga, Ogun State.</div>
                     <div class="school-phone">Tel: 08149135960; 08085042982</div>
@@ -525,10 +514,10 @@ l-61 -64 20 -38 c30 -60 25 -91 -20 -132 -21 -19 -48 -38 -60 -42 -18 -5 -20
         
         <div class="term-panel" id="panel_y2t3_2025-2026" data-term-id="y2t3_2025-2026" hidden>
             <div class="card-inner">
-                <svg class="watermark-crest"><use href="#crest-symbol"/></svg>
-                <svg class="corner-logo"><use href="#crest-symbol"/></svg>
+                <svg class="watermark-crest"><use href="#crest-symbol" xlink:href="#crest-symbol"/></svg>
+                <svg class="corner-logo"><use href="#crest-symbol" xlink:href="#crest-symbol"/></svg>
                 <div class="school-header">
-                    <svg class="header-logo"><use href="#crest-symbol"/></svg>
+                    <svg class="header-logo"><use href="#crest-symbol" xlink:href="#crest-symbol"/></svg>
                     <div class="school-name">TENDER CARE COMPREHENSIVE COLLEGE</div>
                     <div class="school-address">Kamalo Labori Sagamu Road, Gbaga, Ogun State.</div>
                     <div class="school-phone">Tel: 08149135960; 08085042982</div>
@@ -651,24 +640,7 @@ l-61 -64 20 -38 c30 -60 25 -91 -20 -132 -21 -19 -48 -38 -60 -42 -18 -5 -20
 </div>
 
 <script>
-const PLAINTEXT_PASSWORD = "12345678";
-function attemptUnlock() {
-    const input = document.getElementById("gate-input");
-    const errorEl = document.getElementById("gate-error");
-    const value = input.value.trim();
-    if (!value) return;
-    if (value === PLAINTEXT_PASSWORD) {
-        document.getElementById("gate-wrap").style.display = "none";
-        document.getElementById("site-content").style.display = "block";
-        initArchive();
-    } else {
-        errorEl.textContent = "Incorrect access code. Please try again.";
-        input.value = "";
-        input.focus();
-    }
-}
-document.getElementById("gate-btn").addEventListener("click", attemptUnlock);
-document.getElementById("gate-input").addEventListener("keydown", (e) => { if (e.key === "Enter") attemptUnlock(); });
+document.addEventListener("DOMContentLoaded", initArchive);
 
 function initArchive() {
     document.querySelectorAll(".year-header").forEach(btn => {
