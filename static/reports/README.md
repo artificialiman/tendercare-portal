@@ -42,6 +42,12 @@ this folder holds, not brought over here.
 The 10 `TCH-0000-*` files are still placeholder data (never real student
 IDs) and are unrelated to the 267 above.
 
+JSS3A, JSS3B, SS3 Science, and SS3 Actuarial (110 students) don't sit an
+internal Third Term exam at all -- they proceed straight to a national
+exam instead (BECE for JSS3, WASSCE for SS3). Their files here say
+exactly that (`scripts/generate_national_exam_notice.py`), rather than
+showing pending/missing -- there's no Third Term score to be pending on.
+
 Note: these are static files only. For `/result/<id>` to actually serve
 one, the matching row needs to exist in Supabase's `students` table
 (`active: true`) and have a password hash in `portal_credentials` (see
