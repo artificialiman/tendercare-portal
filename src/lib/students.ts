@@ -16,7 +16,7 @@ export interface DirectoryEntry {
 	class_id: string;
 }
 
-export const STUDENTS: readonly DirectoryEntry[
+export const STUDENTS: readonly DirectoryEntry[] = [
 	{ id: "TCH-2026-001", full_name: "Abraham Babayemi", class_id: "JSS1A" },
 	{ id: "TCH-2026-002", full_name: "Aduloju Favour", class_id: "JSS1A" },
 	{ id: "TCH-2026-003", full_name: "Afuwape Tomiwa", class_id: "JSS1A" },
