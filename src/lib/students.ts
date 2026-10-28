@@ -12,9 +12,10 @@
 //   SS1->SS2, SS2->SS3. SS3 graduated and live in tendercare-web's alumni
 //   archive (Class of 2026), not here.
 //
-// NOT INCLUDED YET: the new JSS1 intake and students who joined other
-// classes since the roster was loaded -- their names were not available.
-// Add them to STUDENTS below (keep IDs exactly as issued by the school).
+// 2026/2027 JSS1 intake (58 students, TCH-2026-NNN) added via tendercare-teacher's
+// scripts/intake/build_intake.py. NOT INCLUDED YET: students who joined
+// other classes since the roster was loaded -- add them below (keep IDs
+// exactly as issued by the school).
 // ============================================================================
 
 export interface DirectoryEntry {
@@ -358,4 +359,62 @@ export const STUDENTS: readonly DirectoryEntry[] = [
 	{ id: "TCH-2025-332", full_name: "Shokoya Samuel", class_id: "SS3 Actuarial" },
 	{ id: "TCH-2025-333", full_name: "Sulaimon Aishat", class_id: "SS3 Actuarial" },
 	{ id: "TCH-2025-334", full_name: "Zulukadeen Rokeeb", class_id: "SS3 Actuarial" },
+	{ id: "TCH-2026-001", full_name: "Abraham Babayemi", class_id: "JSS1A" },
+	{ id: "TCH-2026-002", full_name: "Aduloju Favour", class_id: "JSS1A" },
+	{ id: "TCH-2026-003", full_name: "Afuwape Tomiwa", class_id: "JSS1A" },
+	{ id: "TCH-2026-004", full_name: "Aniebo Onyekachi", class_id: "JSS1A" },
+	{ id: "TCH-2026-005", full_name: "Atunde Praise", class_id: "JSS1A" },
+	{ id: "TCH-2026-006", full_name: "Awotoye Anthony", class_id: "JSS1A" },
+	{ id: "TCH-2026-007", full_name: "Benson Ezekiel", class_id: "JSS1A" },
+	{ id: "TCH-2026-008", full_name: "Folorunsho Boluwatif", class_id: "JSS1A" },
+	{ id: "TCH-2026-009", full_name: "Joseph Matthew", class_id: "JSS1A" },
+	{ id: "TCH-2026-010", full_name: "Mustapha Ibrahim", class_id: "JSS1A" },
+	{ id: "TCH-2026-011", full_name: "Odusanya Semilore", class_id: "JSS1A" },
+	{ id: "TCH-2026-012", full_name: "Olalere Habeeb", class_id: "JSS1A" },
+	{ id: "TCH-2026-013", full_name: "Paulinus Godwin", class_id: "JSS1A" },
+	{ id: "TCH-2026-014", full_name: "Samuel Divine", class_id: "JSS1A" },
+	{ id: "TCH-2026-015", full_name: "Tiamyu Elijah", class_id: "JSS1A" },
+	{ id: "TCH-2026-016", full_name: "Lateef Mubaraq", class_id: "JSS1A" },
+	{ id: "TCH-2026-017", full_name: "Amirat Abdulrahman", class_id: "JSS1A" },
+	{ id: "TCH-2026-018", full_name: "Adeboye Imisi", class_id: "JSS1A" },
+	{ id: "TCH-2026-019", full_name: "Adeyemo Waliat", class_id: "JSS1A" },
+	{ id: "TCH-2026-020", full_name: "Adeboye Waliat", class_id: "JSS1A" },
+	{ id: "TCH-2026-021", full_name: "Precious Nehmat", class_id: "JSS1A" },
+	{ id: "TCH-2026-022", full_name: "James Cherish", class_id: "JSS1A" },
+	{ id: "TCH-2026-023", full_name: "Mmaduabuchi Cynthia", class_id: "JSS1A" },
+	{ id: "TCH-2026-024", full_name: "Ologunore Favour", class_id: "JSS1A" },
+	{ id: "TCH-2026-025", full_name: "Owolewa Seun", class_id: "JSS1A" },
+	{ id: "TCH-2026-026", full_name: "Oyebanji Oluwatobiloba", class_id: "JSS1A" },
+	{ id: "TCH-2026-027", full_name: "Oyewole Temiloluwa", class_id: "JSS1A" },
+	{ id: "TCH-2026-028", full_name: "Sulaimon Amirat", class_id: "JSS1A" },
+	{ id: "TCH-2026-029", full_name: "Sunny Grace", class_id: "JSS1A" },
+	{ id: "TCH-2026-030", full_name: "Abdulmojeed Aliamin", class_id: "JSS1B" },
+	{ id: "TCH-2026-031", full_name: "Awodiya David Oluwadamilola", class_id: "JSS1B" },
+	{ id: "TCH-2026-032", full_name: "Alexander Chibuzor", class_id: "JSS1B" },
+	{ id: "TCH-2026-033", full_name: "Amos Owen", class_id: "JSS1B" },
+	{ id: "TCH-2026-034", full_name: "Elumezie Goodluck", class_id: "JSS1B" },
+	{ id: "TCH-2026-035", full_name: "Idowu Samson", class_id: "JSS1B" },
+	{ id: "TCH-2026-036", full_name: "Lateef Malik", class_id: "JSS1B" },
+	{ id: "TCH-2026-037", full_name: "Ajayi Inioluwa", class_id: "JSS1B" },
+	{ id: "TCH-2026-038", full_name: "Oluwaseun Samuel", class_id: "JSS1B" },
+	{ id: "TCH-2026-039", full_name: "Okezuoeze Kamsi", class_id: "JSS1B" },
+	{ id: "TCH-2026-040", full_name: "Olowu Faruq", class_id: "JSS1B" },
+	{ id: "TCH-2026-041", full_name: "Yusuf Abdulwahab", class_id: "JSS1B" },
+	{ id: "TCH-2026-042", full_name: "Olusola James", class_id: "JSS1B" },
+	{ id: "TCH-2026-043", full_name: "Oyesiji Prosper", class_id: "JSS1B" },
+	{ id: "TCH-2026-044", full_name: "Bakare Bamidele", class_id: "JSS1B" },
+	{ id: "TCH-2026-045", full_name: "Akeem Aishat", class_id: "JSS1B" },
+	{ id: "TCH-2026-046", full_name: "Ajibola Aishat", class_id: "JSS1B" },
+	{ id: "TCH-2026-047", full_name: "Abdulganiu Misturah", class_id: "JSS1B" },
+	{ id: "TCH-2026-048", full_name: "Famakinwa Hannah", class_id: "JSS1B" },
+	{ id: "TCH-2026-049", full_name: "Hassan Jazeelat", class_id: "JSS1B" },
+	{ id: "TCH-2026-050", full_name: "Jimoh Abidat", class_id: "JSS1B" },
+	{ id: "TCH-2026-051", full_name: "Law Egbueje Kendra", class_id: "JSS1B" },
+	{ id: "TCH-2026-052", full_name: "Olumide Sharon", class_id: "JSS1B" },
+	{ id: "TCH-2026-053", full_name: "Okebiyi Phoebe", class_id: "JSS1B" },
+	{ id: "TCH-2026-054", full_name: "Obaoye Dasola", class_id: "JSS1B" },
+	{ id: "TCH-2026-055", full_name: "Oyebode Mercy", class_id: "JSS1B" },
+	{ id: "TCH-2026-056", full_name: "Shobowalw Faith", class_id: "JSS1B" },
+	{ id: "TCH-2026-057", full_name: "Sanni Arafat", class_id: "JSS1B" },
+	{ id: "TCH-2026-058", full_name: "Toki Abigail", class_id: "JSS1B" },
 ];
