@@ -1,7 +1,11 @@
 import { json } from '@sveltejs/kit';
 import bcrypt from 'bcryptjs';
-import { supabaseAdmin } from '$lib/server/supabaseAdmin';
+import { env } from '$env/dynamic/private';
+import { STUDENTS } from '$lib/students';
+import { configuredPassword, verifySharedPassword } from '$lib/server/sharedPassword';
 import type { RequestHandler } from './$types';
+
+const KNOWN_IDS: ReadonlySet<string> = new Set(STUDENTS.map((s) => s.id));
 
 /**
  * Verifies a student's result-page password. Runs server-side only — the
@@ -29,6 +33,22 @@ export const POST: RequestHandler = async ({ params, request }) => {
 	if (!studentId || typeof password !== 'string' || !password) {
 		return json({ ok: false, error: 'Missing student ID or password.' }, { status: 400 });
 	}
+
+	// Preferred path: ONE password for every student, set in the environment
+	// (STUDENT_LOGIN_PASSWORD) and checked against the hardcoded directory --
+	// no database, so it works for every student in the directory, including
+	// ones the database never heard of (the 2026/27 intake).
+	const shared = configuredPassword(env.STUDENT_LOGIN_PASSWORD);
+	if (shared) {
+		return verifySharedPassword(studentId, password, shared, KNOWN_IDS)
+			? json({ ok: true })
+			: json({ ok: false, error: 'Incorrect student ID or password.' }, { status: 401 });
+	}
+
+	// Fallback while STUDENT_LOGIN_PASSWORD is not set: the older per-row
+	// bcrypt check against portal_credentials. Loaded only here, so the
+	// shared-password path above never touches Supabase.
+	const { supabaseAdmin } = await import('$lib/server/supabaseAdmin');
 
 	const { data: student } = await supabaseAdmin
 		.from('students')

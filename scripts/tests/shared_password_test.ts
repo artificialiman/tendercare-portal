@@ -1,0 +1,15 @@
+import { configuredPassword, verifySharedPassword } from '../../src/lib/server/sharedPassword';
+let fails = 0;
+const ok = (c: boolean, m: string) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fails++; };
+const ids = new Set(['TCH-2025-001', 'TCH-2026-058']);
+ok(configuredPassword(undefined) === null && configuredPassword('') === null && configuredPassword('  \n') === null, 'unset/blank means "not configured"');
+ok(configuredPassword('Tender#2026\n') === 'Tender#2026', 'trailing newline from a file is ignored');
+ok(verifySharedPassword('TCH-2025-001', 'Tender#2026', 'Tender#2026', ids), 'right ID + right password opens');
+ok(verifySharedPassword('TCH-2026-058', 'Tender#2026', 'Tender#2026', ids), 'new-intake student opens (no database needed)');
+ok(verifySharedPassword('TCH-2025-001', '  Tender#2026 ', 'Tender#2026', ids), 'spaces added by a phone are ignored');
+ok(!verifySharedPassword('TCH-2025-001', 'tender#2026', 'Tender#2026', ids), 'case matters');
+ok(!verifySharedPassword('TCH-2025-001', 'Tender#2026x', 'Tender#2026', ids), 'longer guess refused');
+ok(!verifySharedPassword('TCH-2025-001', 'Tender#202', 'Tender#2026', ids), 'prefix refused');
+ok(!verifySharedPassword('TCH-2025-001', '', 'Tender#2026', ids), 'empty refused');
+ok(!verifySharedPassword('TCH-9999-999', 'Tender#2026', 'Tender#2026', ids), 'unknown student ID refused even with the right password');
+console.log(fails ? `${fails} FAILED` : 'ALL PASS'); process.exit(fails ? 1 : 0);
