@@ -6,7 +6,7 @@
 // there (apply_changes.py) and re-publish. The portal never asks a database for
 // names, so it loads instantly and works on slow or dropped connections.
 //
-// As of 2026-11-17, session 2026/2027: 410 active students.
+// As of 2026-11-17, session 2026/2027: 416 active students.
 // Graduates are not listed here -- they live in tendercare-web's alumni archive.
 // ============================================================================
 
@@ -317,6 +317,12 @@ export const STUDENTS: readonly DirectoryEntry[] = [
 	{ id: "TCH-2025-231", full_name: "Samuel Benjamin", class_id: "SS2 Science" },
 	{ id: "TCH-2025-232", full_name: "Sanusi Farahat", class_id: "SS2 Science" },
 	{ id: "TCH-2025-233", full_name: "Sunday Isaac", class_id: "SS2 Science" },
+	{ id: "TCH-2026-076", full_name: "Yusuf Farida Iye", class_id: "SS2 Science" },
+	{ id: "TCH-2026-077", full_name: "Kingsley Wisdom", class_id: "SS2 Science" },
+	{ id: "TCH-2026-078", full_name: "Akeredolu Abigail", class_id: "SS2 Science" },
+	{ id: "TCH-2026-079", full_name: "Inaku Elizabeth", class_id: "SS2 Science" },
+	{ id: "TCH-2026-080", full_name: "Babayemi Favour", class_id: "SS2 Science" },
+	{ id: "TCH-2026-081", full_name: "Olugbodee Tajudeen", class_id: "SS2 Science" },
 	{ id: "TCH-2025-234", full_name: "Abdulmojeed Saheed", class_id: "SS2 Actuarial" },
 	{ id: "TCH-2025-235", full_name: "Arekwen clement", class_id: "SS2 Actuarial" },
 	{ id: "TCH-2025-236", full_name: "Ekum honesty", class_id: "SS2 Actuarial" },
