@@ -6,7 +6,7 @@
 // there (apply_changes.py) and re-publish. The portal never asks a database for
 // names, so it loads instantly and works on slow or dropped connections.
 //
-// As of 2026-11-17, session 2026/2027: 416 active students.
+// As of 2026-11-20, session 2026/2027: 421 active students.
 // Graduates are not listed here -- they live in tendercare-web's alumni archive.
 // ============================================================================
 
@@ -237,6 +237,8 @@ export const STUDENTS: readonly DirectoryEntry[] = [
 	{ id: "TCH-2026-073", full_name: "Ajayi Toluwase", class_id: "SS1 Science" },
 	{ id: "TCH-2026-074", full_name: "Odunsi Oluwadarasimi", class_id: "SS1 Science" },
 	{ id: "TCH-2026-075", full_name: "Obaoye Daniel", class_id: "SS1 Science" },
+	{ id: "TCH-2026-085", full_name: "Adamolekun Delight", class_id: "SS1 Science" },
+	{ id: "TCH-2026-086", full_name: "Ochube David", class_id: "SS1 Science" },
 	{ id: "TCH-2025-117", full_name: "Adebayo Dorcas", class_id: "SS1 Actuarial" },
 	{ id: "TCH-2025-118", full_name: "Adebayo Favour", class_id: "SS1 Actuarial" },
 	{ id: "TCH-2025-120", full_name: "Afolayan Joshua", class_id: "SS1 Actuarial" },
@@ -360,6 +362,9 @@ export const STUDENTS: readonly DirectoryEntry[] = [
 	{ id: "TCH-2025-268", full_name: "Awodiya Amazing-Grace", class_id: "SS2 Actuarial" },
 	{ id: "TCH-2025-269", full_name: "Ofonime Success", class_id: "SS2 Actuarial" },
 	{ id: "TCH-2025-377", full_name: "Ilo Joseph", class_id: "SS2 Actuarial" },
+	{ id: "TCH-2026-082", full_name: "Falola Omotayo", class_id: "SS2 Actuarial" },
+	{ id: "TCH-2026-083", full_name: "Aduloju Fortune", class_id: "SS2 Actuarial" },
+	{ id: "TCH-2026-084", full_name: "Olayinka Keziah", class_id: "SS2 Actuarial" },
 	{ id: "TCH-2025-270", full_name: "Abdullahi Malik", class_id: "SS3 Science" },
 	{ id: "TCH-2025-271", full_name: "Adeoye Rokeeb", class_id: "SS3 Science" },
 	{ id: "TCH-2025-272", full_name: "Adeyemi Adesewa", class_id: "SS3 Science" },
