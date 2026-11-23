@@ -6,7 +6,7 @@
 // there (apply_changes.py) and re-publish. The portal never asks a database for
 // names, so it loads instantly and works on slow or dropped connections.
 //
-// As of 2026-11-23, session 2026/2027: 424 active students.
+// As of 2026-11-23, session 2026/2027: 428 active students.
 // Graduates are not listed here -- they live in tendercare-web's alumni archive.
 // ============================================================================
 
@@ -169,6 +169,7 @@ export const STUDENTS: readonly DirectoryEntry[] = [
 	{ id: "TCH-2025-088", full_name: "Rafiu Rofiat", class_id: "JSS3A" },
 	{ id: "TCH-2025-089", full_name: "Raji Joshua", class_id: "JSS3A" },
 	{ id: "TCH-2025-090", full_name: "Tijani Olamiposi", class_id: "JSS3A" },
+	{ id: "TCH-2026-091", full_name: "Adio Daniel Oluwadami", class_id: "JSS3A" },
 	{ id: "TCH-2025-091", full_name: "Abolanle Nancy", class_id: "JSS3B" },
 	{ id: "TCH-2025-092", full_name: "Adeboyo Taiwo", class_id: "JSS3B" },
 	{ id: "TCH-2025-093", full_name: "Adeniran Isaac", class_id: "JSS3B" },
@@ -195,6 +196,9 @@ export const STUDENTS: readonly DirectoryEntry[] = [
 	{ id: "TCH-2025-114", full_name: "Suli Fridaus", class_id: "JSS3B" },
 	{ id: "TCH-2025-115", full_name: "Yakubu Moses", class_id: "JSS3B" },
 	{ id: "TCH-2026-059", full_name: "Noragbon Beauty", class_id: "JSS3B" },
+	{ id: "TCH-2026-090", full_name: "Adedokun Oluwadarasimi", class_id: "JSS3B" },
+	{ id: "TCH-2026-092", full_name: "Adio Daniel Araoluwa", class_id: "JSS3B" },
+	{ id: "TCH-2026-093", full_name: "Adewale Shedrack", class_id: "JSS3B" },
 	{ id: "TCH-2025-119", full_name: "Adeniyi Darasimi", class_id: "SS1 Science" },
 	{ id: "TCH-2025-125", full_name: "Balogun Jomiloju", class_id: "SS1 Science" },
 	{ id: "TCH-2025-127", full_name: "Emmanuel Maxwell", class_id: "SS1 Science" },
