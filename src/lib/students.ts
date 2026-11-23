@@ -6,7 +6,7 @@
 // there (apply_changes.py) and re-publish. The portal never asks a database for
 // names, so it loads instantly and works on slow or dropped connections.
 //
-// As of 2026-11-23, session 2026/2027: 428 active students.
+// As of 2026-11-23, session 2026/2027: 439 active students.
 // Graduates are not listed here -- they live in tendercare-web's alumni archive.
 // ============================================================================
 
@@ -48,6 +48,7 @@ export const STUDENTS: readonly DirectoryEntry[] = [
 	{ id: "TCH-2026-029", full_name: "Sunny Grace", class_id: "JSS1A" },
 	{ id: "TCH-2026-088", full_name: "Odekoya Sulaimon", class_id: "JSS1A" },
 	{ id: "TCH-2026-089", full_name: "Bello Sulaimon", class_id: "JSS1A" },
+	{ id: "TCH-2026-101", full_name: "Odekoya Subomi", class_id: "JSS1A" },
 	{ id: "TCH-2026-030", full_name: "Abdulmojeed Aliamin", class_id: "JSS1B" },
 	{ id: "TCH-2026-031", full_name: "Awodiya David Oluwadamilola", class_id: "JSS1B" },
 	{ id: "TCH-2026-032", full_name: "Alexander Chibuzor", class_id: "JSS1B" },
@@ -137,6 +138,9 @@ export const STUDENTS: readonly DirectoryEntry[] = [
 	{ id: "TCH-2025-056", full_name: "Tijani Anjolaoluwa", class_id: "JSS2B" },
 	{ id: "TCH-2025-057", full_name: "Ubi Richard Victoria", class_id: "JSS2B" },
 	{ id: "TCH-2025-058", full_name: "Yusuff Salamat Semilore", class_id: "JSS2B" },
+	{ id: "TCH-2026-102", full_name: "Oyeniran Rokibat", class_id: "JSS2B" },
+	{ id: "TCH-2026-103", full_name: "Olushola Esther", class_id: "JSS2B" },
+	{ id: "TCH-2026-104", full_name: "Busari Yusuf", class_id: "JSS2B" },
 	{ id: "TCH-2025-059", full_name: "Abey Phoebe", class_id: "JSS3A" },
 	{ id: "TCH-2025-060", full_name: "Adeniyi Mubarak", class_id: "JSS3A" },
 	{ id: "TCH-2025-061", full_name: "Agbabiaka Ella", class_id: "JSS3A" },
@@ -169,7 +173,14 @@ export const STUDENTS: readonly DirectoryEntry[] = [
 	{ id: "TCH-2025-088", full_name: "Rafiu Rofiat", class_id: "JSS3A" },
 	{ id: "TCH-2025-089", full_name: "Raji Joshua", class_id: "JSS3A" },
 	{ id: "TCH-2025-090", full_name: "Tijani Olamiposi", class_id: "JSS3A" },
+	{ id: "TCH-2025-099", full_name: "Fagbola Oladerin Emmanualla", class_id: "JSS3A" },
 	{ id: "TCH-2026-091", full_name: "Adio Daniel Oluwadami", class_id: "JSS3A" },
+	{ id: "TCH-2026-094", full_name: "Babayemi David", class_id: "JSS3A" },
+	{ id: "TCH-2026-095", full_name: "Aniebo Munachi", class_id: "JSS3A" },
+	{ id: "TCH-2026-096", full_name: "Adebayo Abdulrahmon", class_id: "JSS3A" },
+	{ id: "TCH-2026-097", full_name: "Oyelakin Lateefat", class_id: "JSS3A" },
+	{ id: "TCH-2026-098", full_name: "Muhammed Okiki", class_id: "JSS3A" },
+	{ id: "TCH-2026-099", full_name: "Oluwatoyin Pemisire", class_id: "JSS3A" },
 	{ id: "TCH-2025-091", full_name: "Abolanle Nancy", class_id: "JSS3B" },
 	{ id: "TCH-2025-092", full_name: "Adeboyo Taiwo", class_id: "JSS3B" },
 	{ id: "TCH-2025-093", full_name: "Adeniran Isaac", class_id: "JSS3B" },
@@ -178,7 +189,6 @@ export const STUDENTS: readonly DirectoryEntry[] = [
 	{ id: "TCH-2025-096", full_name: "Akinola Abdulhamid", class_id: "JSS3B" },
 	{ id: "TCH-2025-097", full_name: "Alexander Chinaza", class_id: "JSS3B" },
 	{ id: "TCH-2025-098", full_name: "Balogun Muminat", class_id: "JSS3B" },
-	{ id: "TCH-2025-099", full_name: "Fagbola Oladerin Emmanualla", class_id: "JSS3B" },
 	{ id: "TCH-2025-100", full_name: "Ganiu Aliyat", class_id: "JSS3B" },
 	{ id: "TCH-2025-101", full_name: "Idris Faridat", class_id: "JSS3B" },
 	{ id: "TCH-2025-102", full_name: "Ikechukwu Miracle", class_id: "JSS3B" },
@@ -199,6 +209,7 @@ export const STUDENTS: readonly DirectoryEntry[] = [
 	{ id: "TCH-2026-090", full_name: "Adedokun Oluwadarasimi", class_id: "JSS3B" },
 	{ id: "TCH-2026-092", full_name: "Adio Daniel Araoluwa", class_id: "JSS3B" },
 	{ id: "TCH-2026-093", full_name: "Adewale Shedrack", class_id: "JSS3B" },
+	{ id: "TCH-2026-100", full_name: "Adedeji Christianah", class_id: "JSS3B" },
 	{ id: "TCH-2025-119", full_name: "Adeniyi Darasimi", class_id: "SS1 Science" },
 	{ id: "TCH-2025-125", full_name: "Balogun Jomiloju", class_id: "SS1 Science" },
 	{ id: "TCH-2025-127", full_name: "Emmanuel Maxwell", class_id: "SS1 Science" },
