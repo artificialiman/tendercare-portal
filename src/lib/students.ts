@@ -6,7 +6,7 @@
 // there (apply_changes.py) and re-publish. The portal never asks a database for
 // names, so it loads instantly and works on slow or dropped connections.
 //
-// As of 2026-11-20, session 2026/2027: 421 active students.
+// As of 2026-11-23, session 2026/2027: 424 active students.
 // Graduates are not listed here -- they live in tendercare-web's alumni archive.
 // ============================================================================
 
@@ -46,6 +46,8 @@ export const STUDENTS: readonly DirectoryEntry[] = [
 	{ id: "TCH-2026-027", full_name: "Oyewole Temiloluwa", class_id: "JSS1A" },
 	{ id: "TCH-2026-028", full_name: "Sulaimon Amirat", class_id: "JSS1A" },
 	{ id: "TCH-2026-029", full_name: "Sunny Grace", class_id: "JSS1A" },
+	{ id: "TCH-2026-088", full_name: "Odekoya Sulaimon", class_id: "JSS1A" },
+	{ id: "TCH-2026-089", full_name: "Bello Sulaimon", class_id: "JSS1A" },
 	{ id: "TCH-2026-030", full_name: "Abdulmojeed Aliamin", class_id: "JSS1B" },
 	{ id: "TCH-2026-031", full_name: "Awodiya David Oluwadamilola", class_id: "JSS1B" },
 	{ id: "TCH-2026-032", full_name: "Alexander Chibuzor", class_id: "JSS1B" },
@@ -61,7 +63,7 @@ export const STUDENTS: readonly DirectoryEntry[] = [
 	{ id: "TCH-2026-042", full_name: "Olusola James", class_id: "JSS1B" },
 	{ id: "TCH-2026-043", full_name: "Oyesiji Prosper", class_id: "JSS1B" },
 	{ id: "TCH-2026-044", full_name: "Bakare Bamidele", class_id: "JSS1B" },
-	{ id: "TCH-2026-045", full_name: "Akeem Aishat", class_id: "JSS1B" },
+	{ id: "TCH-2026-045", full_name: "Abdulakeem Aishat", class_id: "JSS1B" },
 	{ id: "TCH-2026-046", full_name: "Ajibola Aishat", class_id: "JSS1B" },
 	{ id: "TCH-2026-047", full_name: "Abdulganiu Misturah", class_id: "JSS1B" },
 	{ id: "TCH-2026-048", full_name: "Famakinwa Hannah", class_id: "JSS1B" },
@@ -75,6 +77,7 @@ export const STUDENTS: readonly DirectoryEntry[] = [
 	{ id: "TCH-2026-056", full_name: "Shobowalw Faith", class_id: "JSS1B" },
 	{ id: "TCH-2026-057", full_name: "Sanni Arafat", class_id: "JSS1B" },
 	{ id: "TCH-2026-058", full_name: "Toki Abigail", class_id: "JSS1B" },
+	{ id: "TCH-2026-087", full_name: "Fakunle Eniola", class_id: "JSS1B" },
 	{ id: "TCH-2025-001", full_name: "Abraham Comfort Princess", class_id: "JSS2A" },
 	{ id: "TCH-2025-002", full_name: "Abraham Nanmwa", class_id: "JSS2A" },
 	{ id: "TCH-2025-003", full_name: "Adebanjo Anjola", class_id: "JSS2A" },
