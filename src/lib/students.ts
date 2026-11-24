@@ -6,7 +6,7 @@
 // there (apply_changes.py) and re-publish. The portal never asks a database for
 // names, so it loads instantly and works on slow or dropped connections.
 //
-// As of 2026-11-23, session 2026/2027: 439 active students.
+// As of 2026-11-24, session 2026/2027: 442 active students.
 // Graduates are not listed here -- they live in tendercare-web's alumni archive.
 // ============================================================================
 
@@ -109,6 +109,9 @@ export const STUDENTS: readonly DirectoryEntry[] = [
 	{ id: "TCH-2025-028", full_name: "Soyode Emmanuel", class_id: "JSS2A" },
 	{ id: "TCH-2025-029", full_name: "Yusuf Al-meen", class_id: "JSS2A" },
 	{ id: "TCH-2026-060", full_name: "Fakunmoju Enoch", class_id: "JSS2A" },
+	{ id: "TCH-2026-105", full_name: "Olayinka Caleb", class_id: "JSS2A" },
+	{ id: "TCH-2026-106", full_name: "Oloyede Oluwatomisin", class_id: "JSS2A" },
+	{ id: "TCH-2026-107", full_name: "Monday Victory", class_id: "JSS2A" },
 	{ id: "TCH-2025-030", full_name: "Adeniyi Nifemi", class_id: "JSS2B" },
 	{ id: "TCH-2025-031", full_name: "Adeniyi Basit", class_id: "JSS2B" },
 	{ id: "TCH-2025-032", full_name: "Adeyemi Modesire", class_id: "JSS2B" },
