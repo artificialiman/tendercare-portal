@@ -347,7 +347,7 @@ export const STUDENTS: readonly DirectoryEntry[] = [
 	{ id: "TCH-2026-078", full_name: "Akeredolu Abigail", class_id: "SS2 Science" },
 	{ id: "TCH-2026-079", full_name: "Inaku Elizabeth", class_id: "SS2 Science" },
 	{ id: "TCH-2026-080", full_name: "Babayemi Favour", class_id: "SS2 Science" },
-	{ id: "TCH-2026-081", full_name: "Olugbodee Tajudeen", class_id: "SS2 Science" },
+	{ id: "TCH-2026-081", full_name: "Olugbode Tajudeen", class_id: "SS2 Science" },
 	{ id: "TCH-2025-234", full_name: "Abdulmojeed Saheed", class_id: "SS2 Actuarial" },
 	{ id: "TCH-2025-235", full_name: "Arekwen clement", class_id: "SS2 Actuarial" },
 	{ id: "TCH-2025-236", full_name: "Ekum honesty", class_id: "SS2 Actuarial" },
